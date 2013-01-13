@@ -1,6 +1,7 @@
 *.swp
 .DS_Store
 .bundle
+db/*.db
 log/**/*
 tmp/**/*
 bin/*
