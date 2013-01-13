@@ -1,6 +1,7 @@
 *.swp
 .DS_Store
 .bundle
+.powenv
 db/*.db
 log/**/*
 tmp/**/*
