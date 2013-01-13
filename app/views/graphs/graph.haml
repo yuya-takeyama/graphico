@@ -1,0 +1,4 @@
+%h2 #{params[:service_name]}/#{params[:section_name]}/#{@type}/#{params[:name]}
+%ul
+  - @stats.each do |stat|
+    %li #{stat.count}

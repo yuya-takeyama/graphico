@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
+    %title= content_for?(:title) ? yield(:title) : "Marrig"
+    %meta{:content => content_for?(:description) ? yield(:description) : "Marrig", :name => "Metrics visualizer on the web"}
+    = stylesheet_link_tag :application, :media => "all"
+    = javascript_include_tag :application
+  %body
+    #container.container
+      %header
+        %h1#appname Marrig
+      #main{:role => "main"}
+        = yield
+      %footer

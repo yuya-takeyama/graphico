@@ -1,0 +1,3 @@
+%ul
+  - @graphs.each do |graph|
+    %li #{link_to(graph.service_name, "/graphs/#{graph.service_name}")}

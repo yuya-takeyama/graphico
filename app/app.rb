@@ -56,4 +56,48 @@ class Marrig < Padrino::Application
   #     render 'errors/505'
   #   end
   #
+
+  [:daily].each do |type|
+    get "/graphs/:service_name/:section_name/#{type}/:name" do
+      graph = Graph.first(
+        service_name: params[:service_name],
+        section_name: params[:section_name],
+        graph_name: params[:name],
+        type: type
+      )
+      @stats = Stat.all(graph_id: graph.id)
+      @type  = type
+
+      render 'graphs/graph'
+    end
+
+    get "/graphs/:service_name/:section_name/#{type}" do
+      @graphs = Graph.all(
+        service_name: params[:service_name],
+        section_name: params[:section_name],
+        type: type
+      )
+      @type = type
+
+      render 'graphs/types'
+    end
+  end
+
+  get '/graphs/:service_name/:section_name' do
+    @graphs = Graph.all(fields: ["service_name", "section_name", "type"], unique: true)
+
+    render 'graphs/sections'
+  end
+
+  get '/graphs/:service_name' do
+    @graphs = Graph.all(fields: ["service_name", "section_name"], unique: true)
+
+    render 'graphs/services'
+  end
+
+  get :index do
+    @graphs = Graph.all(fields: ["service_name"], unique: true)
+
+    render :index
+  end
 end
