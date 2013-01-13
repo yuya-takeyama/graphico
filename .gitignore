@@ -1,0 +1,10 @@
+*.swp
+.DS_Store
+.bundle
+log/**/*
+tmp/**/*
+bin/*
+vendor/bundle/*
+vendor/gems/*
+!vendor/gems/cache/
+.sass-cache/*
