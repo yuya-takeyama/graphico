@@ -6,6 +6,7 @@ db/*.db
 log/**/*
 tmp/**/*
 bin/*
+config/database.rb
 vendor/bundle/*
 vendor/gems/*
 !vendor/gems/cache/
