@@ -1,3 +1,5 @@
+%h2 Services
+
 %ul
   - @graphs.each do |graph|
     %li #{link_to(graph.service_name, "/stats/#{graph.service_name}")}
