@@ -147,7 +147,7 @@ class Graphico < Padrino::Application
   get '/stats/:service_name' do
     @service_name = params[:service_name]
 
-    @sections = Chart.sections
+    @sections = Chart.sections(service_name: @service_name)
 
     render :service
   end

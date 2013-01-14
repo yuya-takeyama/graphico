@@ -19,10 +19,13 @@ class Chart
     ).map{|c| c.service_name }
   end
 
-  def self.sections
-    Chart.all(
+  def self.sections(conditions = {})
+    conditions = {
       fields: ['service_name', 'section_name'],
       unique: true
-    ).map {|c| c.section_name }
+    }.merge(conditions)
+
+
+    Chart.all(conditions).map {|c| c.section_name }
   end
 end
