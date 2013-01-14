@@ -72,9 +72,17 @@ class Graphico < Padrino::Application
       name: params[:name],
     )
 
-    unless chart
+    unless chart.saved?
       chart.default_interval = params[:interval]
-      chart.save!
+
+      unless chart.save
+        status 500
+
+        return {
+          message: 'Failed to save chart',
+          errors: chart.errors.full_messages
+        }.to_json
+      end
     end
 
     stat = Stat.first_or_new(
@@ -89,7 +97,10 @@ class Graphico < Padrino::Application
       status 204
     else
       status 500
-      {message: 'Failed to save stat'}.to_json
+      {
+        message: 'Failed to save stat',
+        errors: stat.errors.full_messages
+      }.to_json
     end
   end
 
