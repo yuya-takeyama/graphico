@@ -1,0 +1,5 @@
+%h2 Choose a section
+
+%ul
+  - @sections.each do |section|
+    %li #{link_to(section, "/stats/#{@service_name}/#{section}")}

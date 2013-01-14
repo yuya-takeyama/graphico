@@ -1,0 +1,5 @@
+%h2 Choose a metrics
+
+%ul
+  - @charts.each do |chart|
+    %li #{link_to(chart.name, "/stats/#{@service_name}/#{@section_name}/#{chart.name}")}
