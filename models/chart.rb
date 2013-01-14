@@ -11,4 +11,18 @@ class Chart
 
   timestamps :at
   property :deleted_at, ParanoidDateTime, :unique_index => :service_section_name
+
+  def self.services
+    self.all(
+      fields: ['service_name'],
+      unique: true
+    ).map{|c| c.service_name }
+  end
+
+  def self.sections
+    Chart.all(
+      fields: ['service_name', 'section_name'],
+      unique: true
+    ).map {|c| c.section_name }
+  end
 end

@@ -125,7 +125,10 @@ class Graphico < Padrino::Application
     @service_name = params[:service_name]
     @section_name = params[:section_name]
 
-    @charts = Chart.all(fields: ["service_name", "section_name", "name"], unique: true)
+    @charts = Chart.find(
+      service_name: @service_name,
+      section_name: @section_name
+    )
 
     render :section
   end
@@ -133,13 +136,13 @@ class Graphico < Padrino::Application
   get '/stats/:service_name' do
     @service_name = params[:service_name]
 
-    @sections = Chart.all(fields: ["service_name", "section_name"], unique: true).map {|c| c.section_name }
+    @sections = Chart.sections
 
     render :service
   end
 
   get :index do
-    @services = Chart.all(fields: ["service_name"], unique: true).map {|c| c.service_name }
+    @services = Chart.services
 
     render :index
   end
