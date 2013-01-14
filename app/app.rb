@@ -1,4 +1,4 @@
-class Marrig < Padrino::Application
+class Graphico < Padrino::Application
   register Padrino::Rendering
   register Padrino::Mailer
   register Padrino::Helpers

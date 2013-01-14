@@ -10,5 +10,5 @@ def app
   ##
   # You can handle all padrino applications using instead:
   #   Padrino.application
-  Marrig.tap { |app|  }
+  Graphico.tap { |app|  }
 end

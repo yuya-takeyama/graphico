@@ -2,8 +2,8 @@
 %html
   %head
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
-    %title= content_for?(:title) ? yield(:title) : "Marrig"
-    %meta{:content => content_for?(:description) ? yield(:description) : "Marrig", :name => "Metrics visualizer on the web"}
+    %title= content_for?(:title) ? yield(:title) : "Graphico"
+    %meta{:content => content_for?(:description) ? yield(:description) : "Graphico", :name => "Metrics visualizer on the web"}
     = stylesheet_link_tag :application, :media => "all"
     = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"
     = javascript_include_tag "raphael.min"
@@ -12,7 +12,7 @@
   %body
     #container.container
       %header
-        %h1#appname Marrig
+        %h1#appname Graphico
       #main{:role => "main"}
         = yield
       %footer

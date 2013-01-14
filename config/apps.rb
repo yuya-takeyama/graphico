@@ -31,4 +31,4 @@ Padrino.configure_apps do
 end
 
 # Mounts the core application for this project
-Padrino.mount("Marrig").to('/')
+Padrino.mount("Graphico").to('/')
