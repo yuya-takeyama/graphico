@@ -1,3 +1,5 @@
+require 'json'
+
 class ChartData
   def initialize(params = {})
     raise 'No chart specified' unless params[:chart]
