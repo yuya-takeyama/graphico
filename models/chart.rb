@@ -15,14 +15,16 @@ class Chart
   def self.services
     self.all(
       fields: ['service_name'],
-      unique: true
+      unique: true,
+      order: 'service_name'
     ).map{|c| c.service_name }
   end
 
   def self.sections(conditions = {})
     conditions = {
       fields: ['service_name', 'section_name'],
-      unique: true
+      unique: true,
+      order: 'section_name'
     }.merge(conditions)
 
 
