@@ -1,4 +1,5 @@
-%h2 #{params[:service_name]}/#{params[:section_name]}
+%h2 Choose a metrics
+
 %ul
   - @graphs.each do |graph|
     %li #{link_to(graph.name, "/stats/#{graph.service_name}/#{graph.section_name}/#{graph.name}")}

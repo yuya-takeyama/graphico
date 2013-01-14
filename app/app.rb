@@ -94,6 +94,10 @@ class Graphico < Padrino::Application
   end
 
   get "/stats/:service_name/:section_name/:name" do
+    @service_name = params[:service_name]
+    @section_name = params[:section_name]
+    @graph_name   = params[:name]
+
     graph = Graph.first(
       service_name: params[:service_name],
       section_name: params[:section_name],
@@ -118,12 +122,17 @@ class Graphico < Padrino::Application
   end
 
   get '/stats/:service_name/:section_name' do
+    @service_name = params[:service_name]
+    @section_name = params[:section_name]
+
     @graphs = Graph.all(fields: ["service_name", "section_name", "name"], unique: true)
 
     render :section
   end
 
   get '/stats/:service_name' do
+    @service_name = params[:service_name]
+
     @graphs = Graph.all(fields: ["service_name", "section_name"], unique: true)
 
     render :service
