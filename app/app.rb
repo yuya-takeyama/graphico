@@ -57,47 +57,32 @@ class Graphico < Padrino::Application
   #   end
   #
 
-  [:daily].each do |type|
-    get "/graphs/:service_name/:section_name/#{type}/:name" do
-      graph = Graph.first(
-        service_name: params[:service_name],
-        section_name: params[:section_name],
-        graph_name: params[:name],
-        type: type
-      )
-      stats = Stat.all(graph_id: graph.id)
-      @type  = type
+  get "/graphs/:service_name/:section_name/:name" do
+    graph = Graph.first(
+      service_name: params[:service_name],
+      section_name: params[:section_name],
+      graph_name: params[:name],
+    )
+    stats = Stat.all(graph_id: graph.id)
 
-      @data = {
-        element: "graph",
-        data: stats.map {|s|
-          {
-            date: s.time.strftime('%Y-%m-%d'),
-            c: s.count
-          }
-        },
-        xkey: "date",
-        ykeys: ["c"],
-        labels: [params[:name]]
-      }
+    @data = {
+      element: "graph",
+      data: stats.map {|s|
+        {
+          date: s.time.strftime('%Y-%m-%d'),
+          c: s.count
+        }
+      },
+      xkey: "date",
+      ykeys: ["c"],
+      labels: [params[:name]]
+    }
 
-      render 'graphs/graph'
-    end
-
-    get "/graphs/:service_name/:section_name/#{type}" do
-      @graphs = Graph.all(
-        service_name: params[:service_name],
-        section_name: params[:section_name],
-        type: type
-      )
-      @type = type
-
-      render 'graphs/types'
-    end
+    render 'graphs/graph'
   end
 
   get '/graphs/:service_name/:section_name' do
-    @graphs = Graph.all(fields: ["service_name", "section_name", "type"], unique: true)
+    @graphs = Graph.all(fields: ["service_name", "section_name", "graph_name"], unique: true)
 
     render 'graphs/sections'
   end

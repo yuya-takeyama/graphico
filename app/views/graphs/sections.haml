@@ -1,4 +1,4 @@
 %h2 #{params[:service_name]}/#{params[:section_name]}
 %ul
   - @graphs.each do |graph|
-    %li #{link_to(graph.type, "/graphs/#{graph.service_name}/#{graph.section_name}/#{graph.type}")}
+    %li #{link_to(graph.graph_name, "/graphs/#{graph.service_name}/#{graph.section_name}/#{graph.graph_name}")}
