@@ -4,6 +4,7 @@
 .powenv
 db/*.db
 log/**/*
+tmp/*
 tmp/**/*
 bin/*
 config/database.rb
