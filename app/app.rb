@@ -78,19 +78,19 @@ class Graphico < Padrino::Application
       labels: [params[:name]]
     }
 
-    render 'stats/graph'
+    render :graph
   end
 
   get '/stats/:service_name/:section_name' do
     @graphs = Graph.all(fields: ["service_name", "section_name", "graph_name"], unique: true)
 
-    render 'stats/sections'
+    render :section
   end
 
   get '/stats/:service_name' do
     @graphs = Graph.all(fields: ["service_name", "section_name"], unique: true)
 
-    render 'stats/services'
+    render :service
   end
 
   get :index do
