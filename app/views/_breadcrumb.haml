@@ -12,12 +12,12 @@
   - else
     %li
       #{@service_name}
-  - if @graph_name
+  - if @chart_name
     %li
       #{link_to(@section_name, "/stats/#{@service_name}/#{@section_name}")}
       %span.divider /
     %li
-      #{@graph_name}
+      #{@chart_name}
   - else
     %li
       #{@section_name}

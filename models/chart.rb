@@ -1,4 +1,4 @@
-class Graph
+class Chart
   include DataMapper::Resource
 
   # property <name>, <type>
@@ -10,5 +10,5 @@ class Graph
   property :default_interval, String, :required => true
 
   timestamps :at
-  property :deleted_at, ParanoidDateTime
+  property :deleted_at, ParanoidDateTime, :unique_index => :service_section_name
 end

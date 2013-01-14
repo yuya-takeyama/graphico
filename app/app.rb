@@ -66,19 +66,19 @@ class Graphico < Padrino::Application
       return {message: request_validator.message}.to_json
     end
 
-    graph = Graph.first_or_new(
+    chart = Chart.first_or_new(
       service_name: params[:service_name],
       section_name: params[:section_name],
       name: params[:name],
     )
 
-    unless graph
-      graph.default_interval = params[:interval]
-      graph.save!
+    unless chart
+      chart.default_interval = params[:interval]
+      chart.save!
     end
 
     stat = Stat.first_or_new(
-      graph_id: graph.id,
+      chart_id: chart.id,
       interval: params[:interval],
       time: params[:time],
     )
@@ -96,17 +96,17 @@ class Graphico < Padrino::Application
   get "/stats/:service_name/:section_name/:name" do
     @service_name = params[:service_name]
     @section_name = params[:section_name]
-    @graph_name   = params[:name]
+    @chart_name   = params[:name]
 
-    graph = Graph.first(
+    chart = Chart.first(
       service_name: params[:service_name],
       section_name: params[:section_name],
       name: params[:name],
     )
-    stats = Stat.all(graph_id: graph.id)
+    stats = Stat.all(chart_id: chart.id)
 
     @data = {
-      element: "graph",
+      element: "chart",
       data: stats.map {|s|
         {
           date: s.time.strftime('%Y-%m-%d'),
@@ -118,14 +118,14 @@ class Graphico < Padrino::Application
       labels: [params[:name]]
     }
 
-    render :graph
+    render :chart
   end
 
   get '/stats/:service_name/:section_name' do
     @service_name = params[:service_name]
     @section_name = params[:section_name]
 
-    @graphs = Graph.all(fields: ["service_name", "section_name", "name"], unique: true)
+    @charts = Chart.all(fields: ["service_name", "section_name", "name"], unique: true)
 
     render :section
   end
@@ -133,13 +133,13 @@ class Graphico < Padrino::Application
   get '/stats/:service_name' do
     @service_name = params[:service_name]
 
-    @graphs = Graph.all(fields: ["service_name", "section_name"], unique: true)
+    @sections = Chart.all(fields: ["service_name", "section_name"], unique: true).map {|c| c.section_name }
 
     render :service
   end
 
   get :index do
-    @graphs = Graph.all(fields: ["service_name"], unique: true)
+    @services = Chart.all(fields: ["service_name"], unique: true).map {|c| c.service_name }
 
     render :index
   end

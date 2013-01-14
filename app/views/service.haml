@@ -1,5 +1,5 @@
 %h2 Choose a section
 
 %ul
-  - @graphs.each do |graph|
-    %li #{link_to(graph.section_name, "/stats/#{graph.service_name}/#{graph.section_name}")}
+  - @sections.each do |section|
+    %li #{link_to(section, "/stats/#{@service_name}/#{section}")}
