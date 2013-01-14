@@ -14,7 +14,7 @@ class ChartData
     @hash ||= {
       element: @element,
       data: data,
-      xkey: 'date',
+      xkey: 'time',
       ykeys: ['c'],
       labels: [@chart.name]
     }

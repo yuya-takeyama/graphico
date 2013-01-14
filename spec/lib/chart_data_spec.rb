@@ -28,7 +28,7 @@ describe 'ChartData' do
           {time: '2013-01-02', c: 1200},
           {time: '2013-01-03', c: 1500},
         ],
-        xkey: 'date',
+        xkey: 'time',
         ykeys: ['c'],
         labels: ['example_chart'],
       })
