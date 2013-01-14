@@ -116,18 +116,11 @@ class Graphico < Padrino::Application
     )
     stats = Stat.all(chart_id: chart.id)
 
-    @data = {
-      element: "chart",
-      data: stats.map {|s|
-        {
-          date: s.time.strftime('%Y-%m-%d'),
-          c: s.count
-        }
-      },
-      xkey: "date",
-      ykeys: ["c"],
-      labels: [params[:name]]
-    }
+    @data = ChartData.new(
+      chart: chart,
+      stats: stats,
+      interval: 'daily',
+    )
 
     render :chart
   end
