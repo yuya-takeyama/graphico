@@ -3,10 +3,12 @@ class Graph
 
   # property <name>, <type>
   property :id, Serial
-  property :service_name, String
-  property :section_name, String
-  property :graph_name, String
-  property :type, String
-  property :created_at, DateTime
-  property :updated_at, DateTime
+  property :name, String, :unique_index => :service_section_name, :required => true
+  property :screen_name, String
+  property :service_name, String, :unique_index => :service_section_name, :required => true
+  property :section_name, String, :unique_index => :service_section_name, :required => true
+  property :default_interval, String, :required => true
+
+  timestamps :at
+  property :deleted_at, ParanoidDateTime
 end
