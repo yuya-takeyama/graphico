@@ -129,9 +129,10 @@ class Graphico < Padrino::Application
     @service_name = params[:service_name]
     @section_name = params[:section_name]
 
-    @charts = Chart.find(
+    @charts = Chart.all(
       service_name: @service_name,
-      section_name: @section_name
+      section_name: @section_name,
+      order: 'name'
     )
 
     render :section
