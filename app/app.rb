@@ -61,7 +61,7 @@ class Graphico < Padrino::Application
     graph = Graph.first(
       service_name: params[:service_name],
       section_name: params[:section_name],
-      graph_name: params[:name],
+      name: params[:name],
     )
     stats = Stat.all(graph_id: graph.id)
 
@@ -82,7 +82,7 @@ class Graphico < Padrino::Application
   end
 
   get '/stats/:service_name/:section_name' do
-    @graphs = Graph.all(fields: ["service_name", "section_name", "graph_name"], unique: true)
+    @graphs = Graph.all(fields: ["service_name", "section_name", "name"], unique: true)
 
     render :section
   end
