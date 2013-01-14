@@ -57,6 +57,34 @@ class Graphico < Padrino::Application
   #   end
   #
 
+  put '/stats/:service_name/:section_name/:name/:interval/:time' do
+    graph = Graph.first_or_new(
+      service_name: params[:service_name],
+      section_name: params[:section_name],
+      name: params[:name],
+    )
+
+    unless graph
+      graph.default_interval = params[:interval]
+      graph.save!
+    end
+
+    stat = Stat.first_or_new(
+      graph_id: graph.id,
+      interval: params[:interval],
+      time: params[:time],
+    )
+
+    stat.count = params['count']
+
+    if stat.save
+      status 204
+    else
+      status 500
+      {message: 'Failed to save stat'}.to_json
+    end
+  end
+
   get "/stats/:service_name/:section_name/:name" do
     graph = Graph.first(
       service_name: params[:service_name],
