@@ -58,6 +58,14 @@ class Graphico < Padrino::Application
   #
 
   put '/stats/:service_name/:section_name/:name/:interval/:time' do
+    content_type :json
+
+    unless request_validator.validate(params)
+      status 400
+
+      return {message: request_validator.message}.to_json
+    end
+
     graph = Graph.first_or_new(
       service_name: params[:service_name],
       section_name: params[:section_name],
@@ -125,5 +133,9 @@ class Graphico < Padrino::Application
     @graphs = Graph.all(fields: ["service_name"], unique: true)
 
     render :index
+  end
+
+  def request_validator
+    @request_validator ||= RequestValidator.new
   end
 end
