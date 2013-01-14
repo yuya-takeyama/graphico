@@ -31,6 +31,10 @@ describe RequestValidator do
       let(:params) { {interval: 'daily'} }
 
       it { should be_false }
+
+      it 'should have correct error message' do
+        expect(validator.message).to eq('Invalid time is specified for daily interval')
+      end
     end
   end
 end

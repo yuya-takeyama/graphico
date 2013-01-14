@@ -11,7 +11,7 @@ class RequestValidator
     end
 
     unless correct_time_for?(interval, time)
-      @message = "Invalid time is specified for #{interval}"
+      @message = "Invalid time is specified for #{interval} interval"
 
       return false
     end
