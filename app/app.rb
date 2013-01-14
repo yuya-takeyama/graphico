@@ -65,8 +65,21 @@ class Marrig < Padrino::Application
         graph_name: params[:name],
         type: type
       )
-      @stats = Stat.all(graph_id: graph.id)
+      stats = Stat.all(graph_id: graph.id)
       @type  = type
+
+      @data = {
+        element: "graph",
+        data: stats.map {|s|
+          {
+            date: s.time.strftime('%Y-%m-%d'),
+            c: s.count
+          }
+        },
+        xkey: "date",
+        ykeys: ["c"],
+        labels: [params[:name]]
+      }
 
       render 'graphs/graph'
     end
