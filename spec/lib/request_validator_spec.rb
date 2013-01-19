@@ -8,12 +8,19 @@ describe RequestValidator do
     subject { @result }
 
     context 'when valid param' do
-      let(:params) { {interval: 'daily', time: '2013-01-01'} }
+      VALID_PARAMS = [
+        {interval: 'daily',   time: '2013-01-01'},
+        {interval: 'monthly', time: '2013-01'},
+      ]
 
-      it { should be_true }
+      VALID_PARAMS.each do |param|
+        let(:params) { param }
 
-      it 'should not have error message' do
-        expect(validator.message).to be_nil
+        it { should be_true }
+
+        it 'should not have error message' do
+          expect(validator.message).to be_nil
+        end
       end
     end
 
