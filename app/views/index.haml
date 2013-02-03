@@ -2,4 +2,5 @@
 
 %ul
   - @services.each do |service|
-    %li #{link_to(service, "/charts/#{service}")}
+    %li
+      =link_to service, url(:charts, service)

@@ -79,11 +79,11 @@ class Graphico < Padrino::Application
     end
   end
 
-  get '/charts/:service_name/:section_name/:chart_name' do
+  get :charts, :with => [:service_name, :section_name, :chart_name, :interval] do
     fetch_and_render_chart
   end
 
-  get '/charts/:service_name/:section_name/:chart_name/:interval' do
+  get :charts, :with => [:service_name, :section_name, :chart_name] do
     fetch_and_render_chart
   end
 
@@ -111,11 +111,11 @@ class Graphico < Padrino::Application
     render :chart
   end
 
-  get '/charts/:service_name/:section_name' do
+  get :charts, :with => [:service_name, :section_name] do
     render :section
   end
 
-  get '/charts/:service_name' do
+  get :charts, :with => :service_name do
     render :service
   end
 
