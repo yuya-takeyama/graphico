@@ -121,11 +121,11 @@ class Graphico < Padrino::Application
       @interval = chart.default_interval
     end
 
-    stats = Stat.all(chart_id: chart.id, interval: @interval)
+    @stats = Stat.all(chart_id: chart.id, interval: @interval)
 
     @data = ChartData.new(
       chart: chart,
-      stats: stats,
+      stats: @stats,
       interval: @interval,
     )
 

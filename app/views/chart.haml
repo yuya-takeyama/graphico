@@ -4,7 +4,10 @@
   %li{class: @interval == 'monthly' ? 'active' : nil}
     %a(href="/charts/#{@service_name}/#{@section_name}/#{@chart_name}/monthly") Monthly
 
-#chart
+- if @stats.empty?
+  .alert No stats are available!
+- else
+  #chart
 
 :javascript
   Morris.Line(#{@data.to_json})
