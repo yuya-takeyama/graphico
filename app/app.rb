@@ -104,18 +104,22 @@ class Graphico < Padrino::Application
     end
   end
 
-  get "/charts/:service_name/:section_name/:name" do
-    @service_name = params[:service_name]
-    @section_name = params[:section_name]
-    @chart_name   = params[:name]
+  get %r{/charts/([^/]+)/([^/]+)/([^/]+)(?:/([^/]+))?} do
+    @service_name = params[:captures][0]
+    @section_name = params[:captures][1]
+    @chart_name   = params[:captures][2]
 
     chart = Chart.first(
-      service_name: params[:service_name],
-      section_name: params[:section_name],
-      name: params[:name],
+      service_name: @service_name,
+      section_name: @section_name,
+      name: @chart_name,
     )
 
-    @interval = chart.default_interval
+    if params[:captures][3]
+      @interval = params[:captures][3]
+    else
+      @interval = chart.default_interval
+    end
 
     stats = Stat.all(chart_id: chart.id, interval: @interval)
 
