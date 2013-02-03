@@ -35,7 +35,7 @@ Basic Usage
 Currenlty, only daily statistics is available.
 
 ```
-$ curl -X PUT -i -d 'count=1200' 'http://graphico.dev/stats/:service_name/:section_name/:chart_name/daily/2013-01-03'
+$ curl -X PUT -i -d 'count=1200' 'http://graphico.dev/api/v0/stats/:service_name/:section_name/:chart_name/daily/2013-01-03'
 ```
 
 Author
