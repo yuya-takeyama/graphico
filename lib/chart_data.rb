@@ -39,6 +39,8 @@ class ChartData
     case @interval
     when 'daily'
       then '%Y-%m-%d'
+    when 'monthly'
+      then '%Y-%m'
     end
   end
 end
