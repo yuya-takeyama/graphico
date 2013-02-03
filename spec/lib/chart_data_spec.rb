@@ -31,6 +31,7 @@ describe 'ChartData' do
         xkey: 'time',
         ykeys: ['c'],
         labels: ['example_chart'],
+        xLabels: 'day',
       })
     end
   end
@@ -65,6 +66,7 @@ describe 'ChartData' do
         xkey: 'time',
         ykeys: ['c'],
         labels: ['example_chart'],
+        xLabels: 'month',
       })
     end
   end
