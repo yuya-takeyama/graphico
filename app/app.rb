@@ -126,7 +126,7 @@ class Graphico < Padrino::Application
     @data = ChartData.new(
       chart: chart,
       stats: stats,
-      interval: 'daily',
+      interval: @interval,
     )
 
     render :chart
