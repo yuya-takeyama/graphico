@@ -15,6 +15,7 @@
 
     = javascript_include_tag 'modernizr-2.6.2-respond-1.1.0.min.js'
     = javascript_include_tag 'jquery-1.8.3.min.js'
+    = javascript_include_tag 'bootstrap.min'
     = javascript_include_tag 'raphael.min'
     = javascript_include_tag 'morris.min'
     = javascript_include_tag :application
@@ -22,11 +23,44 @@
     .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container
-          %a.btn.btn-navbar(data-target=".nav-collapse")
+          %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
+
           %a.brand(href="/") Graphico
+
+          .nav-collapse.collapse
+            %ul.nav
+              %li.dropdown
+                %a.dropdown-toggle(href="#" data-toggle="dropdown")
+                  Service
+                  %b.carret
+                %ul.dropdown-menu
+                  - @services.each do |service|
+                    %li{class: @service_name == service ? 'active' : nil}
+                      #{link_to(service, "/charts/#{service}")}
+
+              - if defined?(@sections) and (not @sections.empty?)
+                %li.dropdown
+                  %a.dropdown-toggle(href="#" data-toggle="dropdown")
+                    Section
+                    %b.carret
+                  %ul.dropdown-menu
+                    - @sections.each do |section|
+                      %li{class: @section_name == section ? 'active' : nil}
+                        #{link_to(section, "/charts/#{@service_name}/#{section}")}
+
+              - if defined?(@charts) and (not @charts.empty?)
+                %li.dropdown
+                  %a.dropdown-toggle(href="#" data-toggle="dropdown")
+                    Metrics
+                    %b.carret
+                  %ul.dropdown-menu
+                    - @charts.each do |chart|
+                      %li{class: @chart_name == chart.name ? 'active' : nil}
+                        #{link_to(chart.name, "/charts/#{@service_name}/#{@section_name}/#{chart.name}")}
+
 
     .container
       = partial 'breadcrumb'
