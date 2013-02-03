@@ -104,19 +104,45 @@ class Graphico < Padrino::Application
     end
   end
 
-  get %r{/charts/([^/]+)/([^/]+)/([^/]+)(?:/([^/]+))?} do
-    @service_name = params[:captures][0]
-    @section_name = params[:captures][1]
-    @chart_name   = params[:captures][2]
+  before %r{^/charts|^/$} do
+    @services = Chart.services
 
+    if params[:service_name]
+      @service_name = params[:service_name]
+      @sections     = Chart.sections(service_name: @service_name)
+
+      if params[:section_name]
+        @section_name = params[:section_name]
+        @charts = Chart.all(
+          service_name: @service_name,
+          section_name: @section_name,
+          order: 'name'
+        )
+      end
+
+      if params[:chart_name]
+        @chart_name = params[:chart_name]
+      end
+    end
+  end
+
+  get '/charts/:service_name/:section_name/:chart_name' do
+    fetch_and_render_chart
+  end
+
+  get '/charts/:service_name/:section_name/:chart_name/:interval' do
+    fetch_and_render_chart
+  end
+
+  def fetch_and_render_chart
     chart = Chart.first(
       service_name: @service_name,
       section_name: @section_name,
       name: @chart_name,
     )
 
-    if params[:captures][3]
-      @interval = params[:captures][3]
+    if params[:interval]
+      @interval = params[:interval]
     else
       @interval = chart.default_interval
     end
@@ -133,29 +159,14 @@ class Graphico < Padrino::Application
   end
 
   get '/charts/:service_name/:section_name' do
-    @service_name = params[:service_name]
-    @section_name = params[:section_name]
-
-    @charts = Chart.all(
-      service_name: @service_name,
-      section_name: @section_name,
-      order: 'name'
-    )
-
     render :section
   end
 
   get '/charts/:service_name' do
-    @service_name = params[:service_name]
-
-    @sections = Chart.sections(service_name: @service_name)
-
     render :service
   end
 
   get :index do
-    @services = Chart.services
-
     render :index
   end
 
