@@ -88,7 +88,7 @@ class Graphico < Padrino::Application
     stat = Stat.first_or_new(
       chart_id: chart.id,
       interval: params[:interval],
-      time: params[:time],
+      time: time_filter.convert(params[:interval], params[:time]),
     )
 
     stat.count = params['count']
@@ -104,28 +104,35 @@ class Graphico < Padrino::Application
     end
   end
 
-  get "/stats/:service_name/:section_name/:name" do
-    @service_name = params[:service_name]
-    @section_name = params[:section_name]
-    @chart_name   = params[:name]
+  get %r{/charts/([^/]+)/([^/]+)/([^/]+)(?:/([^/]+))?} do
+    @service_name = params[:captures][0]
+    @section_name = params[:captures][1]
+    @chart_name   = params[:captures][2]
 
     chart = Chart.first(
-      service_name: params[:service_name],
-      section_name: params[:section_name],
-      name: params[:name],
+      service_name: @service_name,
+      section_name: @section_name,
+      name: @chart_name,
     )
-    stats = Stat.all(chart_id: chart.id)
+
+    if params[:captures][3]
+      @interval = params[:captures][3]
+    else
+      @interval = chart.default_interval
+    end
+
+    @stats = Stat.all(chart_id: chart.id, interval: @interval)
 
     @data = ChartData.new(
       chart: chart,
-      stats: stats,
-      interval: 'daily',
+      stats: @stats,
+      interval: @interval,
     )
 
     render :chart
   end
 
-  get '/stats/:service_name/:section_name' do
+  get '/charts/:service_name/:section_name' do
     @service_name = params[:service_name]
     @section_name = params[:section_name]
 
@@ -138,7 +145,7 @@ class Graphico < Padrino::Application
     render :section
   end
 
-  get '/stats/:service_name' do
+  get '/charts/:service_name' do
     @service_name = params[:service_name]
 
     @sections = Chart.sections(service_name: @service_name)
@@ -154,5 +161,9 @@ class Graphico < Padrino::Application
 
   def request_validator
     @request_validator ||= RequestValidator.new
+  end
+
+  def time_filter
+    @time_filter ||= TimeFilter.new
   end
 end

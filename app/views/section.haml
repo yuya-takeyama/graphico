@@ -2,4 +2,4 @@
 
 %ul
   - @charts.each do |chart|
-    %li #{link_to(chart.name, "/stats/#{@service_name}/#{@section_name}/#{chart.name}")}
+    %li #{link_to(chart.name, "/charts/#{@service_name}/#{@section_name}/#{chart.name}")}

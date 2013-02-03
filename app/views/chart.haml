@@ -1,4 +1,13 @@
-#chart
+%ul.nav.nav-tabs
+  %li{class: @interval == 'daily' ? 'active' : nil}
+    %a(href="/charts/#{@service_name}/#{@section_name}/#{@chart_name}/daily") Daily
+  %li{class: @interval == 'monthly' ? 'active' : nil}
+    %a(href="/charts/#{@service_name}/#{@section_name}/#{@chart_name}/monthly") Monthly
+
+- if @stats.empty?
+  .alert No stats are available!
+- else
+  #chart
 
 :javascript
   Morris.Line(#{@data.to_json})

@@ -18,7 +18,8 @@ class ChartData
       data: data,
       xkey: 'time',
       ykeys: ['c'],
-      labels: [@chart.name]
+      labels: [@chart.name],
+      xLabels: xlabels
     }
   end
 
@@ -39,6 +40,17 @@ class ChartData
     case @interval
     when 'daily'
       then '%Y-%m-%d'
+    when 'monthly'
+      then '%Y-%m'
+    end
+  end
+
+  def xlabels
+    case @interval
+    when 'daily'
+      then 'day'
+    when 'monthly'
+      then 'month'
     end
   end
 end

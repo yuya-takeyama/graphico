@@ -8,12 +8,19 @@ describe RequestValidator do
     subject { @result }
 
     context 'when valid param' do
-      let(:params) { {interval: 'daily', time: '2013-01-01'} }
+      VALID_INPUTS = [
+        {interval: 'daily',   time: '2013-01-01'},
+        {interval: 'monthly', time: '2013-01'},
+      ]
 
-      it { should be_true }
+      VALID_INPUTS.each do |input|
+        let(:params) { input }
 
-      it 'should not have error message' do
-        expect(validator.message).to be_nil
+        it { should be_true }
+
+        it 'should not have error message' do
+          expect(validator.message).to be_nil
+        end
       end
     end
 
@@ -28,12 +35,26 @@ describe RequestValidator do
     end
 
     context 'when invalid time is specified' do
-      let(:params) { {interval: 'daily'} }
+      INVALID_INPUTS = [
+        {interval: 'daily'},
+        {interval: 'daily', time: '2013-01-01 00:00:00'},
+        {interval: 'daily', time: '2013-01'},
+        {interval: 'daily', time: '20130101'},
 
-      it { should be_false }
+        {interval: 'monthly'},
+        {interval: 'monthly', time: '2013-01-01 00:00:00'},
+        {interval: 'monthly', time: '2013-01-01'},
+        {interval: 'monthly', time: '201301'},
+      ]
 
-      it 'should have correct error message' do
-        expect(validator.message).to eq('Invalid time is specified for daily interval')
+      INVALID_INPUTS.each do |input|
+        let(:params) { input }
+
+        it { should be_false }
+
+        it 'should have correct error message' do
+          expect(validator.message).to eq("Invalid time is specified for #{params[:interval]} interval")
+        end
       end
     end
   end
