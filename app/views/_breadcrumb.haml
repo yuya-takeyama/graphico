@@ -7,14 +7,14 @@
       Home
   - if @section_name
     %li
-      #{link_to(@service_name, "/stats/#{@service_name}")}
+      #{link_to(@service_name, "/charts/#{@service_name}")}
       %span.divider /
   - else
     %li
       #{@service_name}
   - if @chart_name
     %li
-      #{link_to(@section_name, "/stats/#{@service_name}/#{@section_name}")}
+      #{link_to(@section_name, "/charts/#{@service_name}/#{@section_name}")}
       %span.divider /
     %li
       #{@chart_name}

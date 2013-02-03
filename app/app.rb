@@ -104,7 +104,7 @@ class Graphico < Padrino::Application
     end
   end
 
-  get "/stats/:service_name/:section_name/:name" do
+  get "/charts/:service_name/:section_name/:name" do
     @service_name = params[:service_name]
     @section_name = params[:section_name]
     @chart_name   = params[:name]
@@ -125,7 +125,7 @@ class Graphico < Padrino::Application
     render :chart
   end
 
-  get '/stats/:service_name/:section_name' do
+  get '/charts/:service_name/:section_name' do
     @service_name = params[:service_name]
     @section_name = params[:section_name]
 
@@ -138,7 +138,7 @@ class Graphico < Padrino::Application
     render :section
   end
 
-  get '/stats/:service_name' do
+  get '/charts/:service_name' do
     @service_name = params[:service_name]
 
     @sections = Chart.sections(service_name: @service_name)
