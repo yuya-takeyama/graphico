@@ -1,5 +1,5 @@
-Graphico.controllers :api do
-  put '/v0/stats/:service_name/:section_name/:name/:interval/:time' do
+Graphico.controllers :api, :v0 do
+  put :stats, with: [:service_name, :section_name, :name, :interval, :time] do
     content_type :json
 
     unless request_validator.validate(params)
