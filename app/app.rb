@@ -88,7 +88,7 @@ class Graphico < Padrino::Application
     stat = Stat.first_or_new(
       chart_id: chart.id,
       interval: params[:interval],
-      time: params[:time],
+      time: time_filter.convert(params[:interval], params[:time]),
     )
 
     stat.count = params['count']
@@ -154,5 +154,9 @@ class Graphico < Padrino::Application
 
   def request_validator
     @request_validator ||= RequestValidator.new
+  end
+
+  def time_filter
+    @time_filter ||= TimeFilter.new
   end
 end
