@@ -3,6 +3,8 @@ class TimeFilter
     case interval
     when 'daily'
       then time
+    when 'monthly'
+      then time + "-01"
     end
   end
 end
