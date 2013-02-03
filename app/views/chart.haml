@@ -1,8 +1,8 @@
 %ul.nav.nav-tabs
   %li{class: @interval == 'daily' ? 'active' : nil}
-    %a(href="/charts/#{@service_name}/#{@section_name}/#{@chart_name}/daily") Daily
+    =link_to 'Daily', url(:charts, @service_name, @section_name, @chart_name, 'daily')
   %li{class: @interval == 'monthly' ? 'active' : nil}
-    %a(href="/charts/#{@service_name}/#{@section_name}/#{@chart_name}/monthly") Monthly
+    =link_to 'Monthly', url(:charts, @service_name, @section_name, @chart_name, 'monthly')
 
 - if @stats.empty?
   .alert No stats are available!
