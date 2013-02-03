@@ -114,7 +114,10 @@ class Graphico < Padrino::Application
       section_name: params[:section_name],
       name: params[:name],
     )
-    stats = Stat.all(chart_id: chart.id)
+
+    @interval = chart.default_interval
+
+    stats = Stat.all(chart_id: chart.id, interval: @interval)
 
     @data = ChartData.new(
       chart: chart,
