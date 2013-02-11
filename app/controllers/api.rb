@@ -15,6 +15,7 @@ Graphico.controllers :api, :v0 do
     )
 
     unless chart.saved?
+      chart.type             = params['type'] || 'countable'
       chart.default_interval = params[:interval]
 
       unless chart.save
@@ -25,6 +26,13 @@ Graphico.controllers :api, :v0 do
           errors: chart.errors.full_messages
         }.to_json
       end
+    end
+
+    if chart.countable? and chart.default_interval != params[:interval]
+      status 406
+      return {
+        message: "This chart only accepts #{chart.default_interval} interval because it's countable chart"
+      }.to_json
     end
 
     stat = Stat.first_or_new(
