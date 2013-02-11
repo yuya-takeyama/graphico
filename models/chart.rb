@@ -7,6 +7,7 @@ class Chart
   property :screen_name, String
   property :service_name, String, :unique_index => :service_section_name, :required => true
   property :section_name, String, :unique_index => :service_section_name, :required => true
+  property :type, String, :required => true
   property :default_interval, String, :required => true
 
   timestamps :at
@@ -29,5 +30,9 @@ class Chart
 
 
     Chart.all(conditions).map {|c| c.section_name }
+  end
+
+  def countable?
+    type == 'countable'
   end
 end
