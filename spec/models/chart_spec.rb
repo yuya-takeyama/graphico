@@ -22,4 +22,22 @@ describe "Chart Model" do
       it { should be_false }
     end
   end
+
+  describe '#uncountable?' do
+    let(:chart) { Chart.new(type: type) }
+    subject { chart.uncountable? }
+
+    context 'when type is "uncountable"' do
+      let(:type) { 'uncountable' }
+
+      it { should be_true }
+    end
+
+    context 'when type is not "uncountable"' do
+      let(:type) { 'countable' }
+
+      it { should be_false }
+    end
+
+  end
 end

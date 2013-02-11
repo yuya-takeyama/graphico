@@ -35,4 +35,8 @@ class Chart
   def countable?
     type == 'countable'
   end
+
+  def uncountable?
+    type == 'uncountable'
+  end
 end
