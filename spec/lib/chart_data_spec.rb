@@ -1,6 +1,46 @@
 require 'spec_helper'
 
 describe 'ChartData' do
+  context 'when countable' do
+    context 'when monthly interval' do
+      before do
+        @chart = Chart.new(
+          name: 'example_chart',
+          type: 'countable',
+          default_interval: 'daily',
+        )
+        @stats = [
+          Stat.new(time: DateTime.new(2013, 1, 1), count: 1000),
+          Stat.new(time: DateTime.new(2013, 1, 2), count: 1200),
+          Stat.new(time: DateTime.new(2013, 2, 1), count: 1500),
+        ]
+        @interval = 'monthly'
+      end
+
+      subject do
+        ChartData.new(
+          chart: @chart,
+          stats: @stats,
+          interval: @interval,
+        ).to_hash
+      end
+
+      it 'should be correct hash' do
+        should eq({
+          element: 'chart',
+          data: [
+            {time: '2013-01', c: 2200},
+            {time: '2013-02', c: 1500},
+          ],
+          xkey: 'time',
+          ykeys: ['c'],
+          labels: ['example_chart'],
+          xLabels: 'month',
+        })
+      end
+    end
+  end
+
   context 'when uncountable' do
     context 'when daily interval' do
       before do

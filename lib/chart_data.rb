@@ -28,12 +28,29 @@ class ChartData
   end
 
   def data
-    @data ||= @stats.map { |s|
+    @data ||= filter_data(@stats).map { |s|
       {
         time: s.time.strftime(time_format),
         c: s.count
       }
     }
+  end
+
+  def filter_data(stats)
+    if @chart.countable?
+      if @chart.default_interval == 'daily' and @interval == 'daily'
+        stats
+      elsif @chart.default_interval == 'daily' and @interval == 'monthly'
+        stats.group_by {|s|
+          DateTime.new(s.time.year, s.time.month, 1)
+        }.reduce([]) {|sum, e|
+          time, stats = e
+          sum << Stat.new(time: time, count: stats.reduce(0) {|sum, s| sum + s.count })
+        }
+      end
+    else
+      stats
+    end
   end
 
   def time_format
