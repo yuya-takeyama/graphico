@@ -100,7 +100,11 @@ class Graphico < Padrino::Application
       @interval = chart.default_interval
     end
 
-    @stats = Stat.all(chart_id: chart.id, interval: @interval)
+    if chart.countable?
+      @stats = Stat.all(chart_id: chart.id, interval: chart.default_interval)
+    else
+      @stats = Stat.all(chart_id: chart.id, interval: @interval)
+    end
 
     @data = ChartData.new(
       chart: chart,
