@@ -57,102 +57,81 @@ class Graphico < Padrino::Application
   #   end
   #
 
-  put '/stats/:service_name/:section_name/:name/:interval/:time' do
-    content_type :json
+  before %r{^/charts|^/$} do
+    @services = Chart.services
 
-    unless request_validator.validate(params)
-      status 400
+    if params[:service_name]
+      @service_name = params[:service_name]
+      @sections     = Chart.sections(service_name: @service_name)
 
-      return {message: request_validator.message}.to_json
-    end
-
-    chart = Chart.first_or_new(
-      service_name: params[:service_name],
-      section_name: params[:section_name],
-      name: params[:name],
-    )
-
-    unless chart.saved?
-      chart.default_interval = params[:interval]
-
-      unless chart.save
-        status 500
-
-        return {
-          message: 'Failed to save chart',
-          errors: chart.errors.full_messages
-        }.to_json
+      if params[:section_name]
+        @section_name = params[:section_name]
+        @charts = Chart.all(
+          service_name: @service_name,
+          section_name: @section_name,
+          order: 'name'
+        )
       end
-    end
 
-    stat = Stat.first_or_new(
-      chart_id: chart.id,
-      interval: params[:interval],
-      time: params[:time],
-    )
-
-    stat.count = params['count']
-
-    if stat.save
-      status 204
-    else
-      status 500
-      {
-        message: 'Failed to save stat',
-        errors: stat.errors.full_messages
-      }.to_json
+      if params[:chart_name]
+        @chart_name = params[:chart_name]
+      end
     end
   end
 
-  get "/stats/:service_name/:section_name/:name" do
-    @service_name = params[:service_name]
-    @section_name = params[:section_name]
-    @chart_name   = params[:name]
+  get :charts, :with => [:service_name, :section_name, :chart_name, :interval] do
+    fetch_and_render_chart
+  end
 
+  get :charts, :with => [:service_name, :section_name, :chart_name] do
+    fetch_and_render_chart
+  end
+
+  def fetch_and_render_chart
     chart = Chart.first(
-      service_name: params[:service_name],
-      section_name: params[:section_name],
-      name: params[:name],
+      service_name: @service_name,
+      section_name: @section_name,
+      name: @chart_name,
     )
-    stats = Stat.all(chart_id: chart.id)
+
+    if params[:interval]
+      @interval = params[:interval]
+    else
+      @interval = chart.default_interval
+    end
+
+    if chart.countable?
+      @stats = Stat.all(chart_id: chart.id, interval: chart.default_interval)
+    else
+      @stats = Stat.all(chart_id: chart.id, interval: @interval)
+    end
 
     @data = ChartData.new(
       chart: chart,
-      stats: stats,
-      interval: 'daily',
+      stats: @stats,
+      interval: @interval,
     )
 
     render :chart
   end
 
-  get '/stats/:service_name/:section_name' do
-    @service_name = params[:service_name]
-    @section_name = params[:section_name]
-
-    @charts = Chart.all(
-      service_name: @service_name,
-      section_name: @section_name,
-      order: 'name'
-    )
-
+  get :charts, :with => [:service_name, :section_name] do
     render :section
   end
 
-  get '/stats/:service_name' do
-    @service_name = params[:service_name]
-
-    @sections = Chart.sections(service_name: @service_name)
-
+  get :charts, :with => :service_name do
     render :service
   end
 
   get :index do
-    @services = Chart.services
-
     render :index
   end
 
   def request_validator
     @request_validator ||= RequestValidator.new
+  end
+
+  def time_filter
+    @time_filter ||= TimeFilter.new
   end
 end

@@ -4,7 +4,7 @@ class RequestValidator
   def validate(params)
     interval, time = params[:interval], params[:time]
 
-    unless ['daily'].include? interval
+    unless ['daily', 'monthly'].include? interval
       @message = 'Invalid interval is specified'
 
       return false
@@ -24,6 +24,8 @@ class RequestValidator
     case interval
     when 'daily' then
       time =~ /^\d{4}-\d{2}-\d{2}$/
+    when 'monthly' then
+      time =~ /^\d{4}-\d{2}$/
     end
   end
 end

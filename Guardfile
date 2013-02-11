@@ -7,7 +7,7 @@ guard 'spork', rspec_env: { 'PADRINO_ENV' => 'test' } do
   watch('spec/spec_helper.rb') { :rspec }
 end
  
-guard 'rspec', :version => 2, :cli => '--color' do
+guard 'rspec', :cli => '--color' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/app/#{m[1]}_spec.rb" }
   watch(%r{^models/(.+)\.rb$})                        { |m| "spec/models/#{m[1]}_spec.rb" }

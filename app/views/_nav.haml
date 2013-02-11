@@ -1,0 +1,41 @@
+.navbar.navbar-inverse.navbar-fixed-top
+  .navbar-inner
+    .container
+      %a.btn.btn-navbar(data-toggle="collapse" data-target=".nav-collapse")
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+
+      %a.brand{href: url(:index)} Graphico
+
+      .nav-collapse.collapse
+        %ul.nav
+          %li.dropdown
+            %a.dropdown-toggle(href="#" data-toggle="dropdown")
+              Service
+              %b.carret
+            %ul.dropdown-menu
+              - @services.each do |service|
+                %li{class: @service_name == service ? 'active' : nil}
+                  =link_to service, url(:charts, service)
+
+          - if defined?(@sections) and (not @sections.empty?)
+            %li.dropdown
+              %a.dropdown-toggle(href="#" data-toggle="dropdown")
+                Section
+                %b.carret
+              %ul.dropdown-menu
+                - @sections.each do |section|
+                  %li{class: @section_name == section ? 'active' : nil}
+                    =link_to section, url(:charts, @service_name, section)
+
+          - if defined?(@charts) and (not @charts.empty?)
+            %li.dropdown
+              %a.dropdown-toggle(href="#" data-toggle="dropdown")
+                Metrics
+                %b.carret
+              %ul.dropdown-menu
+                - @charts.each do |chart|
+                  %li{class: @chart_name == chart.name ? 'active' : nil}
+                    =link_to chart.name, url(:charts, @service_name, @section_name, chart.name)
+

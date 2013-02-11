@@ -1,23 +1,23 @@
 %ul.breadcrumb
   %li
     - if @service_name
-      #{link_to('Home', '/')}
+      =link_to 'Home', url(:index)
       %span.divider /
     - else
       Home
   - if @section_name
     %li
-      #{link_to(@service_name, "/stats/#{@service_name}")}
+      =link_to @service_name, url(:charts, @service_name)
       %span.divider /
   - else
     %li
-      #{@service_name}
+      =@service_name
   - if @chart_name
     %li
-      #{link_to(@section_name, "/stats/#{@service_name}/#{@section_name}")}
+      =link_to @section_name, url(:charts, @service_name, @section_name)
       %span.divider /
     %li
-      #{@chart_name}
+      =@chart_name
   - else
     %li
-      #{@section_name}
+      =@section_name
