@@ -106,7 +106,7 @@ class Graphico < Padrino::Application
       @stats = Stat.all(chart_id: chart.id, interval: @interval)
     end
 
-    @data = ChartData.new(
+    @data = MorrisChart.new(
       chart: chart,
       stats: @stats,
       interval: @interval,
