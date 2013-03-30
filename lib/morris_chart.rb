@@ -1,6 +1,6 @@
 require 'json'
 
-class ChartData
+class MorrisChart
   def initialize(params = {})
     raise 'No chart specified' unless params[:chart]
     raise 'No stats specified' unless params[:stats]
@@ -69,5 +69,9 @@ class ChartData
     when 'monthly'
       then 'month'
     end
+  end
+
+  def empty?
+    @stats.empty?
   end
 end

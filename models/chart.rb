@@ -39,4 +39,18 @@ class Chart
   def uncountable?
     type == 'uncountable'
   end
+
+  def morris_chart(params = {})
+    if countable?
+      stats = Stat.all(chart_id: id, interval: default_interval)
+    else
+      stats = Stat.all(chart_id: id, interval: params[:interval])
+    end
+
+    MorrisChart.new(
+      chart: self,
+      stats: stats,
+      interval: params[:interval] || default_interval,
+    )
+  end
 end
