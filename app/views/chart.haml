@@ -4,10 +4,10 @@
   %li{class: @interval == 'monthly' ? 'active' : nil}
     =link_to 'Monthly', url(:charts, @service_name, @section_name, @chart_name, 'monthly')
 
-- if @stats.empty?
+- if @morris_chart.empty?
   .alert No stats are available!
 - else
   #chart
 
 :javascript
-  Morris.Line(#{@data.to_json})
+  Morris.Line(#{@morris_chart.to_json})

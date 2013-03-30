@@ -70,4 +70,8 @@ class MorrisChart
       then 'month'
     end
   end
+
+  def empty?
+    @stats.empty?
+  end
 end
