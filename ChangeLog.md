@@ -1,8 +1,14 @@
 ChangeLog of Graphico
 =====================
 
-0.1.0 released 2013-0212
-------------------------
+0.1.1 released 2013-03-31
+-------------------------
+
+- [Add] Chart type 'gauge'
+- [Mod] Some refactoring
+
+0.1.0 released 2013-02-12
+-------------------------
 
 - [Add] Chart type 'countable' or 'uncountable'
 - [Add] Monthly chart
