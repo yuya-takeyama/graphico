@@ -40,17 +40,32 @@ class Chart
     type == 'uncountable'
   end
 
+  def gauge?
+    type == 'gauge'
+  end
+
   def morris_chart(params = {})
-    if countable?
+    interval = params[:interval] || default_interval
+
+    if gauge?
+      filter = case interval
+      when 'daily'
+        lambda {|stat| time = stat.time; time.hour == 0 and time.minute == 0 and time.second == 0 }
+      when 'monthly'
+        lambda {|stat| time = stat.time; time.day == 1 and time.hour == 0 and time.minute == 0 and time.second == 0 }
+      end
+
+      stats = Stat.all(chart_id: id, interval: 'momentary').select(&filter).to_a
+    elsif countable?
       stats = Stat.all(chart_id: id, interval: default_interval)
     else
-      stats = Stat.all(chart_id: id, interval: params[:interval])
+      stats = Stat.all(chart_id: id, interval: interval)
     end
 
     MorrisChart.new(
       chart: self,
       stats: stats,
-      interval: params[:interval] || default_interval,
+      interval: interval,
     )
   end
 end

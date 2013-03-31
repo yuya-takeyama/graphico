@@ -7,19 +7,29 @@ describe RequestValidator do
     before { @result = validator.validate(params) }
     subject { @result }
 
-    context 'when valid param' do
-      VALID_INPUTS = [
-        {interval: 'daily',   time: '2013-01-01'},
-        {interval: 'monthly', time: '2013-01'},
+    context 'when valid params' do
+      VALID_PARAMS_SET = [
+        {interval: 'momentary', 'type' => 'gauge', time: '2013'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01-01'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01-01 00'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01-01 00:00'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01-01 00:00:00'},
+
+        {interval: 'daily',     time: '2013-01-01'},
+
+        {interval: 'monthly',   time: '2013-01'},
       ]
 
-      VALID_INPUTS.each do |input|
-        let(:params) { input }
+      VALID_PARAMS_SET.each do |params|
+        context 'params = ' + params.inspect do
+          let(:params) { params }
 
-        it { should be_true }
+          it { should be_true }
 
-        it 'should not have error message' do
-          expect(validator.message).to be_nil
+          it 'should not have error message' do
+            expect(validator.message).to be_nil
+          end
         end
       end
     end
@@ -35,7 +45,10 @@ describe RequestValidator do
     end
 
     context 'when invalid time is specified' do
-      INVALID_INPUTS = [
+      INVALID_PARAMS_SET = [
+        {interval: 'momentary', 'type' => 'gauge'},
+        {interval: 'momentary', 'type' => 'gauge', time: '20131'},
+
         {interval: 'daily'},
         {interval: 'daily', time: '2013-01-01 00:00:00'},
         {interval: 'daily', time: '2013-01'},
@@ -47,13 +60,31 @@ describe RequestValidator do
         {interval: 'monthly', time: '201301'},
       ]
 
-      INVALID_INPUTS.each do |input|
-        let(:params) { input }
+      INVALID_PARAMS_SET.each do |params|
+        context 'params = ' + params.inspect do
+          let(:params) { params }
 
-        it { should be_false }
+          it { should be_false }
 
-        it 'should have correct error message' do
-          expect(validator.message).to eq("Invalid time is specified for #{params[:interval]} interval")
+          it 'should have correct error message' do
+            expect(validator.message).to eq("Invalid time is specified for #{params[:interval]} interval")
+          end
+        end
+      end
+    end
+
+    context 'when invalid type is specified' do
+      context 'interval is momentary' do
+        ['countable', 'uncountable'].each do |type|
+          context "type is \"#{type}\"" do
+            let(:params) { {interval: 'momentary', 'type' => type, time: '2013'} }
+
+            it { should be_false }
+
+            it 'should have correct error message' do
+              expect(validator.message).to eq("momentary interval only allows gauge as type")
+            end
+          end
         end
       end
     end

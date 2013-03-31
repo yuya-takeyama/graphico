@@ -121,6 +121,10 @@ class Graphico < Padrino::Application
     @request_validator ||= RequestValidator.new
   end
 
+  def request_filter
+    @request_filter ||= RequestFilter.new
+  end
+
   def time_filter
     @time_filter ||= TimeFilter.new
   end
