@@ -100,17 +100,7 @@ class Graphico < Padrino::Application
       @interval = chart.default_interval
     end
 
-    if chart.countable?
-      @stats = Stat.all(chart_id: chart.id, interval: chart.default_interval)
-    else
-      @stats = Stat.all(chart_id: chart.id, interval: @interval)
-    end
-
-    @data = ChartData.new(
-      chart: chart,
-      stats: @stats,
-      interval: @interval,
-    )
+    @morris_chart = chart.morris_chart(interval: @interval)
 
     render :chart
   end
@@ -129,6 +119,10 @@ class Graphico < Padrino::Application
 
   def request_validator
     @request_validator ||= RequestValidator.new
+  end
+
+  def request_filter
+    @request_filter ||= RequestFilter.new
   end
 
   def time_filter

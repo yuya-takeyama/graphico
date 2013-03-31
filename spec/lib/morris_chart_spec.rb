@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ChartData' do
+describe 'MorrisChart' do
   context 'when countable' do
     context 'when monthly interval' do
       before do
@@ -18,7 +18,7 @@ describe 'ChartData' do
       end
 
       subject do
-        ChartData.new(
+        MorrisChart.new(
           chart: @chart,
           stats: @stats,
           interval: @interval,
@@ -54,7 +54,7 @@ describe 'ChartData' do
       end
 
       subject do
-        ChartData.new(
+        MorrisChart.new(
           chart: @chart,
           stats: @stats,
           interval: @interval,
@@ -89,7 +89,7 @@ describe 'ChartData' do
       end
 
       subject do
-        ChartData.new(
+        MorrisChart.new(
           chart: @chart,
           stats: @stats,
           interval: @interval,
@@ -110,6 +110,23 @@ describe 'ChartData' do
           xLabels: 'month',
         })
       end
+    end
+  end
+
+  describe '#empty?' do
+    subject { MorrisChart.new(chart: chart, stats: stats, interval: 'daily').empty? }
+    let(:chart) { Chart.new }
+
+    context 'stats are empty' do
+      let(:stats) { [] }
+
+      it { should be_true }
+    end
+
+    context 'stats are not empty' do
+      let(:stats) { [Stat.new(time: DateTime.new(2013, 1, 1), count: 1000)] }
+
+      it { should be_false }
     end
   end
 end
