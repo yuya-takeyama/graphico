@@ -2,10 +2,16 @@ class RequestValidator
   attr_reader :message
 
   def validate(params)
-    interval, time = params[:interval], params[:time]
+    interval, time, type = params[:interval], params[:time], params['type']
 
     unless ['momentary', 'daily', 'monthly'].include? interval
       @message = 'Invalid interval is specified'
+
+      return false
+    end
+
+    if interval == 'momentary' and type != 'gauge'
+      @message = 'momentary interval only allows gauge as type'
 
       return false
     end

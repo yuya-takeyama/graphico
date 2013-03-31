@@ -9,12 +9,12 @@ describe RequestValidator do
 
     context 'when valid params' do
       VALID_PARAMS_SET = [
-        {interval: 'momentary', time: '2013'},
-        {interval: 'momentary', time: '2013-01'},
-        {interval: 'momentary', time: '2013-01-01'},
-        {interval: 'momentary', time: '2013-01-01 00'},
-        {interval: 'momentary', time: '2013-01-01 00:00'},
-        {interval: 'momentary', time: '2013-01-01 00:00:00'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01-01'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01-01 00'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01-01 00:00'},
+        {interval: 'momentary', 'type' => 'gauge', time: '2013-01-01 00:00:00'},
 
         {interval: 'daily',     time: '2013-01-01'},
 
@@ -46,8 +46,8 @@ describe RequestValidator do
 
     context 'when invalid time is specified' do
       INVALID_PARAMS_SET = [
-        {interval: 'momentary'},
-        {interval: 'momentary', time: '20131'},
+        {interval: 'momentary', 'type' => 'gauge'},
+        {interval: 'momentary', 'type' => 'gauge', time: '20131'},
 
         {interval: 'daily'},
         {interval: 'daily', time: '2013-01-01 00:00:00'},
@@ -68,6 +68,22 @@ describe RequestValidator do
 
           it 'should have correct error message' do
             expect(validator.message).to eq("Invalid time is specified for #{params[:interval]} interval")
+          end
+        end
+      end
+    end
+
+    context 'when invalid type is specified' do
+      context 'interval is momentary' do
+        ['countable', 'uncountable'].each do |type|
+          context "type is \"#{type}\"" do
+            let(:params) { {interval: 'momentary', 'type' => type, time: '2013'} }
+
+            it { should be_false }
+
+            it 'should have correct error message' do
+              expect(validator.message).to eq("momentary interval only allows gauge as type")
+            end
           end
         end
       end
