@@ -18,7 +18,7 @@ Graphico.controllers :api, :v0 do
 
     unless chart.saved?
       chart.type             = filtered_params['type']
-      chart.default_interval = filtered_params[:interval]
+      chart.default_interval = filtered_params['default_interval']
 
       unless chart.save
         status 500
