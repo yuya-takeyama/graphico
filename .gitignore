@@ -10,6 +10,7 @@ tmp/**/*
 bin/*
 config/apps.rb
 config/database.rb
+coverage
 vendor/bundle/*
 vendor/gems/*
 !vendor/gems/cache/
