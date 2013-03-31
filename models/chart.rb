@@ -40,6 +40,10 @@ class Chart
     type == 'uncountable'
   end
 
+  def gauge?
+    type == 'gauge'
+  end
+
   def morris_chart(params = {})
     if countable?
       stats = Stat.all(chart_id: id, interval: default_interval)

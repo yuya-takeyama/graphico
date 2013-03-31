@@ -38,6 +38,26 @@ describe "Chart Model" do
 
       it { should be_false }
     end
+  end
 
+  describe '#gauge?' do
+    let(:chart) { Chart.new(type: type) }
+    subject { chart.gauge? }
+
+    context 'when type is "gauge"' do
+      let(:type) { 'gauge' }
+
+      it { should be_true }
+    end
+
+    context 'when type is not "gauge"' do
+      ['countable', 'uncountable'].each do |type|
+        context "type is #{type}" do
+          let(:type) { type }
+
+          it { should be_false }
+        end
+      end
+    end
   end
 end
