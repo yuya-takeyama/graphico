@@ -66,6 +66,29 @@ class Chart
       chart: self,
       stats: stats,
       interval: interval,
+      element: css_id,
     )
+  end
+
+  def render_morris_chart(params = {})
+    if morris_chart(params).empty?
+      '<div class="alert">No stats are available!</div>'
+    else
+      <<-EOS
+<div id='#{css_id}'></div>
+<script>
+Morris.Line(#{morris_chart(params).to_json})
+</script>
+
+      EOS
+    end
+  end
+
+  def morris_chart_empty?(params = {})
+    morris_chart(params).empty?
+  end
+
+  def css_id
+    "chart_#{id}"
   end
 end

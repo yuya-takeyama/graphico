@@ -88,7 +88,7 @@ class Graphico < Padrino::Application
   end
 
   def fetch_and_render_chart
-    chart = Chart.first(
+    @chart = Chart.first(
       service_name: @service_name,
       section_name: @section_name,
       name: @chart_name,
@@ -97,15 +97,29 @@ class Graphico < Padrino::Application
     if params[:interval]
       @interval = params[:interval]
     else
-      @interval = chart.default_interval
+      @interval = @chart.default_interval
     end
-
-    @morris_chart = chart.morris_chart(interval: @interval)
 
     render :chart
   end
 
   get :charts, :with => [:service_name, :section_name] do
+    @tab = case params['tab']
+           when 'list'
+             'list'
+           when 'charts'
+             'charts'
+           else
+             'list'
+           end
+
+    @interval = case params['interval']
+                when 'monthly'
+                  'monthly'
+                else
+                  'daily'
+                end
+
     render :section
   end
 
