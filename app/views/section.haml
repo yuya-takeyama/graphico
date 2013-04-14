@@ -1,6 +1,18 @@
 %h2 Choose a metrics
 
-%ul
+%ul.nav.nav-tabs
+  %li{class: @tab == 'list' ? 'active' : nil}
+    =link_to 'List', url(:charts, @service_name, @section_name)
+  %li{class: @tab == 'charts' ? 'active' : nil}
+    =link_to 'Charts', url(:charts, @service_name, @section_name + "?tab=charts")
+
+- if @tab == 'charts'
   - @charts.each do |chart|
-    %li
-      =link_to chart.name, url(:charts, @service_name, @section_name, chart.name)
+    %h3
+      = link_to chart.name, url(:charts, @service_name, @section_name, chart.name)
+    = chart.render_morris_chart
+- else
+  %ul
+    - @charts.each do |chart|
+      %li
+        =link_to chart.name, url(:charts, @service_name, @section_name, chart.name)
