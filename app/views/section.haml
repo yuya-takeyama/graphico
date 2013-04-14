@@ -7,10 +7,17 @@
     =link_to 'Charts', url(:charts, @service_name, @section_name + "?tab=charts")
 
 - if @tab == 'charts'
+  %ul.nav.nav-tabs
+    %li{class: @interval == 'daily' ? 'active' : nil}
+      = link_to 'Daily', url(:charts, @service_name, @section_name + "?tab=charts")
+    %li{class: @interval == 'monthly' ? 'active' : nil}
+      = link_to 'Monthly', url(:charts, @service_name, @section_name + "?tab=charts&interval=monthly")
+
+- if @tab == 'charts'
   - @charts.each do |chart|
     %h3
       = link_to chart.name, url(:charts, @service_name, @section_name, chart.name)
-    = chart.render_morris_chart
+    = chart.render_morris_chart(interval: @interval)
 - else
   %ul
     - @charts.each do |chart|

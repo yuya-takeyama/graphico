@@ -113,6 +113,12 @@ class Graphico < Padrino::Application
              'list'
            end
 
+    @interval = case params['interval']
+                when 'monthly'
+                  'monthly'
+                else
+                  'daily'
+                end
 
     render :section
   end
