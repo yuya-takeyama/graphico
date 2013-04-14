@@ -1,3 +1,6 @@
+%h2
+  = @chart.name
+
 %ul.nav.nav-tabs
   %li{class: @interval == 'daily' ? 'active' : nil}
     =link_to 'Daily', url(:charts, @service_name, @section_name, @chart_name, 'daily')
