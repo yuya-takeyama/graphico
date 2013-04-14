@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 # Server requirements
 # gem 'thin' # or mongrel
@@ -27,6 +27,7 @@ gem 'rack-test', :require => "rack/test", :group => "test"
 gem 'guard-rspec', :group => "test"
 gem 'guard-spork', :group => "test"
 gem 'rb-fsevent', '~> 0.9.1', :group => "test"
+gem 'coveralls', require: false
 
 # Padrino Stable Gem
 gem 'padrino', '0.10.7'

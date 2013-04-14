@@ -1,13 +1,10 @@
+%h2
+  = @chart.name
+
 %ul.nav.nav-tabs
   %li{class: @interval == 'daily' ? 'active' : nil}
     =link_to 'Daily', url(:charts, @service_name, @section_name, @chart_name, 'daily')
   %li{class: @interval == 'monthly' ? 'active' : nil}
     =link_to 'Monthly', url(:charts, @service_name, @section_name, @chart_name, 'monthly')
 
-- if @morris_chart.empty?
-  .alert No stats are available!
-- else
-  #chart
-
-:javascript
-  Morris.Line(#{@morris_chart.to_json})
+= @chart.render_morris_chart(interval: @interval)

@@ -1,6 +1,7 @@
 *.swp
 .DS_Store
 .bundle
+.coveralls.yml
 .powenv
 db/*.db
 log/**/*
@@ -9,6 +10,7 @@ tmp/**/*
 bin/*
 config/apps.rb
 config/database.rb
+coverage
 vendor/bundle/*
 vendor/gems/*
 !vendor/gems/cache/

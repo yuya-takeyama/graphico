@@ -1,6 +1,9 @@
 Graphico
 ========
 
+[![Build Status](https://travis-ci.org/yuya-takeyama/graphico.png?branch=master)](https://travis-ci.org/yuya-takeyama/graphico)
+[![Coverage Status](https://coveralls.io/repos/yuya-takeyama/graphico/badge.png?branch=master)](https://coveralls.io/r/yuya-takeyama/graphico)
+
 Visualize data, drive business.
 
 What is Graphico?

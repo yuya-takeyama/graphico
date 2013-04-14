@@ -1,6 +1,11 @@
 ChangeLog of Graphico
 =====================
 
+0.1.2 released 2013-04-15
+-------------------------
+
+- [Add] Add view to list charts in a section
+
 0.1.1 released 2013-03-31
 -------------------------
 
