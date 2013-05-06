@@ -1,6 +1,12 @@
 ChangeLog of Graphico
 =====================
 
+0.1.3 released 2013-05-07
+-------------------------
+
+- Update Padrino to 0.11.1
+- [Add] Add view to list charts in a service
+
 0.1.2 released 2013-04-15
 -------------------------
 
