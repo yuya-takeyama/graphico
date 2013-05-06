@@ -1,4 +1,5 @@
-class Graphico < Padrino::Application
+module Graphico
+class App < Padrino::Application
   register Padrino::Rendering
   register Padrino::Mailer
   register Padrino::Helpers
@@ -104,7 +105,13 @@ class Graphico < Padrino::Application
   end
 
   get :charts, :with => [:service_name, :section_name] do
-    @tab = case params['tab']
+    @tab, @interval = parse_tab_and_interval
+
+    render :section
+  end
+
+  def parse_tab_and_interval
+    tab = case params['tab']
            when 'list'
              'list'
            when 'charts'
@@ -113,17 +120,19 @@ class Graphico < Padrino::Application
              'list'
            end
 
-    @interval = case params['interval']
+    interval = case params['interval']
                 when 'monthly'
                   'monthly'
                 else
                   'daily'
                 end
 
-    render :section
+    [tab, interval]
   end
 
   get :charts, :with => :service_name do
+    @tab, @interval = parse_tab_and_interval
+
     render :service
   end
 
@@ -142,4 +151,5 @@ class Graphico < Padrino::Application
   def time_filter
     @time_filter ||= TimeFilter.new
   end
+end
 end

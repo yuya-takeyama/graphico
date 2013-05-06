@@ -17,7 +17,7 @@
   - @charts.each do |chart|
     %h3
       = link_to chart.name, url(:charts, @service_name, @section_name, chart.name)
-    = chart.render_morris_chart(interval: @interval)
+    != chart.render_morris_chart(interval: @interval)
 - else
   %ul
     - @charts.each do |chart|

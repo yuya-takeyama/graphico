@@ -1,4 +1,6 @@
-Graphico.controllers :api, :v0 do
+Graphico::App.controllers :api, :v0 do
+  set :protect_from_csrf, false
+
   put :stats, with: [:service_name, :section_name, :name, :interval, :time] do
     content_type :json
 

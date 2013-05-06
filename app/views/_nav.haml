@@ -29,7 +29,7 @@
                   %li{class: @section_name == section ? 'active' : nil}
                     =link_to section, url(:charts, @service_name, section)
 
-          - if defined?(@charts) and (not @charts.empty?)
+          - if defined?(@sections) and defined?(@charts) and (not @charts.empty?)
             %li.dropdown
               %a.dropdown-toggle(href="#" data-toggle="dropdown")
                 Metrics
