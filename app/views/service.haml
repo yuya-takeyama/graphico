@@ -1,6 +1,28 @@
 %h2 Choose a section
 
-%ul
-  - @sections.each do |section|
-    %li
-      =link_to section, url(:charts, @service_name, section)
+%ul.nav.nav-tabs
+  %li{class: @tab == 'list' ? 'active' : nil}
+    =link_to 'List', url(:charts, @service_name)
+  %li{class: @tab == 'charts' ? 'active' : nil}
+    =link_to 'Charts', url(:charts, @service_name + "?tab=charts")
+
+- if @tab == 'charts'
+  %ul.nav.nav-tabs
+    %li{class: @interval == 'daily' ? 'active' : nil}
+      = link_to 'Daily', url(:charts, @service_name + "?tab=charts")
+    %li{class: @interval == 'monthly' ? 'active' : nil}
+      = link_to 'Monthly', url(:charts, @service_name + "?tab=charts&interval=monthly")
+
+- if @tab == 'charts'
+  - Chart.all(service_name: @service_name, order: ['section_name', 'name']).each do |chart|
+    %h3
+      = link_to chart.section_name, url(:charts, @service_name, chart.section_name + "?tab=charts&interval=#{@interval}")
+      = "/"
+      = link_to chart.name, url(:charts, @service_name, chart.section_name, chart.name)
+    = chart.render_morris_chart(interval: @interval)
+
+- else
+  %ul
+    - @sections.each do |section|
+      %li
+        =link_to section, url(:charts, @service_name, section)
