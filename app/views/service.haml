@@ -19,7 +19,7 @@
       = link_to chart.section_name, url(:charts, @service_name, chart.section_name + "?tab=charts&interval=#{@interval}")
       = "/"
       = link_to chart.name, url(:charts, @service_name, chart.section_name, chart.name)
-    = chart.render_morris_chart(interval: @interval)
+    != chart.render_morris_chart(interval: @interval)
 
 - else
   %ul

@@ -1,4 +1,5 @@
-class Graphico < Padrino::Application
+module Graphico
+class App < Padrino::Application
   register Padrino::Rendering
   register Padrino::Mailer
   register Padrino::Helpers
@@ -150,4 +151,5 @@ class Graphico < Padrino::Application
   def time_filter
     @time_filter ||= TimeFilter.new
   end
+end
 end
