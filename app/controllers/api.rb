@@ -1,4 +1,4 @@
-Graphico.controllers :api, :v0 do
+Graphico::App.controllers :api, :v0 do
   put :stats, with: [:service_name, :section_name, :name, :interval, :time] do
     content_type :json
 
