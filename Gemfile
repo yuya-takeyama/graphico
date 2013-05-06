@@ -29,8 +29,11 @@ gem 'guard-spork', :group => "test"
 gem 'rb-fsevent', '~> 0.9.1', :group => "test"
 gem 'coveralls', require: false
 
+# Temporary workaround https://github.com/padrino/padrino-framework/issues/1274
+gem 'tilt', '~> 1.3.7'
+
 # Padrino Stable Gem
-gem 'padrino', '0.10.7'
+gem 'padrino', '0.11.1'
 
 # Or Padrino Edge
 # gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
